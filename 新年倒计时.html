@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .v{
+            padding:0 33%;
+        }
+        video{
+
+            width: 500px;
+            height: 400px;
+        }
+        iframe{
+             width: 500px;
+            height: 400px;
+        }
+        .box {
+            position: fixed;
+            bottom:0;
+            background-color:black;
+            width: 1210px;
+            margin: 100px auto;
+            color: red;
+            text-align: center;
+            font: 700 30px/30px "simsun";
+        }
+    </style>
+</head>
+<body>
+    <div class="v"> <video src="小伙伴聚会资料.mp4"  autoplay controls  loop></video></div>
+    <!--<div class="v"> <iframe src="小伙伴聚会资料.mp4"  autoplay controls  loop></div>-->
+    <div class="box"></div>
+
+    <script>
+
+        //需求:倒计时;
+            //思路:定义一个定时器,每一毫秒刷新一次,距离愚人节的时间转换成天时分秒....
+        //步骤:
+        //1.定义一个定时器
+        //2.在定时器里面获取未来时间和当前时间,获取他们的差值;
+        //3.把毫秒的差值转换成天时分秒赋值给box;
+
+
+        var box = document.getElementsByClassName("box")[0];
+        //1.定义一个定时器
+        var timer = setInterval(function () {
+            //2.在定时器里面获取未来时间和当前时间,获取他们的差值;
+            var nowTime = new Date();
+            var futureTime = new Date("2019/2/5 00:00:00");
+
+            //获取毫秒的差值;
+            var ss = futureTime.getTime() - nowTime.getTime();
+
+            //如果ss的差值<0了,就直接停止定时器;
+            if(ss<=0){
+                box.innerHTML = "二零一九猪年快乐!!!";
+                clearInterval(timer);
+                return;
+            }
+
+
+            //3.把毫秒的差值转换成天时分秒赋值给box;
+            var day = parseInt(ss/1000/60/60/24);//要完整天,不足的让小时时分秒显现
+            var hour = parseInt(ss/1000/60/60%24);//不足一天的用小时显示;取整;
+            var minute = parseInt(ss/1000/60%60);//不足一小时的用分钟显示;取整;
+            var second = parseInt(ss/1000%60);//不足一分钟的用秒钟显示;取整;
+            var millis = parseInt(ss%1000);//不足一分钟的用秒钟显示;取整;
+
+            //补0;
+            day = day<10?"0"+day:day;
+            hour = hour<10?"0"+hour:hour;
+            minute = minute<10?"0"+minute:minute;
+            second = second<10?"0"+second:second;
+            //毫秒特殊处理;
+            if(millis<10){
+                millis = "00"+millis;
+            }else if(millis<100){
+                millis = "0"+millis;
+            }
+
+            //赋值:
+            box.innerHTML = "距离2019农历新年还有"+day+"天"+hour+"小时"+minute+"分"+second+"秒"+millis+"毫秒"+"<br><br><br><br>-----阿朱制作";
+
+
+
+
+        },1);
+
+
+    </script>
+</body>
+</html>
